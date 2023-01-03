@@ -7,9 +7,17 @@ RSpec.describe Museum do
     let(:dmns) do
         Museum.new('Denver Museum of Nature and Science')
     end
-    let(:exhibit) do
+    let(:gems_and_minerals) do
         Exhibit.new( { name: 'Gems and Minerals',
                        cost: 0 } )
+    end
+    let(:dead_sea_scrolls) do
+        Exhibit.new( { name: 'Dead Sea Scolls',
+                       cost: 10 } )
+    end
+    let(:imax) do
+        Exhibit.new( { name: 'IMAX',
+                       cost: 15 } )
     end
     let(:patron_1) do
         Patron.new( { name: 'Bob',
@@ -27,12 +35,13 @@ RSpec.describe Museum do
         end
     end
 
-    # describe '#add_interest' do
-    #     it 'can add exhibits into the Patron interests array' do
-    #         patron_1.add_interest("Dead Sea Scrolls")
-    #         patron_1.add_interest("Gems and Minerals")
+    describe '#add_exhibit' do
+        it 'can add exhibits into the Museum exhibits array' do
+            dmns.add_exhibit(gems_and_minerals)
+            dmns.add_exhibit(dead_sea_scrolls)
+            dmns.add_exhibit(imax)
 
-    #         expect(patron_1.interests).to eq(["Dead Sea Scrolls", "Gems and Minerals"])
-    #     end
-    # end
+            expect(dmns.exhibits).to eq([gems_and_minerals, dead_sea_scrolls, imax])
+        end
+    end
 end
