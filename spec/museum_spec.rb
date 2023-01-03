@@ -21,11 +21,10 @@ RSpec.describe Museum do
             expect(dmns).to be_instance_of(Museum)
         end
 
-        # it 'has attributes' do
-        #     expect(patron_1.name).to eq("Bob")
-        #     expect(patron_1.spending_money).to eq(20)
-        #     expect(patron_1.interests).to eq([])
-        # end
+        it 'has attributes' do
+            expect(dmns.name).to eq("Denver Museum of Nature and Science")
+            expect(dmns.exhibits).to eq([])
+        end
     end
 
     # describe '#add_interest' do
