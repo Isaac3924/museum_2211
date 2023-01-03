@@ -1,10 +1,12 @@
 class Museum
     attr_reader :name,
-                :exhibits
+                :exhibits,
+                :patrons
 
-    def initialize(name, exhibits = [])
+    def initialize(name, exhibits = [], patrons = [])
         @name = name
         @exhibits = exhibits
+        @patrons = patrons
     end
 
     def add_exhibit(exhibit_name)

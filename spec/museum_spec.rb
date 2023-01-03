@@ -36,6 +36,7 @@ RSpec.describe Museum do
         it 'has attributes' do
             expect(dmns.name).to eq("Denver Museum of Nature and Science")
             expect(dmns.exhibits).to eq([])
+            expect(dmns.patrons).to eq([])
         end
     end
 
