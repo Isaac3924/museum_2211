@@ -12,7 +12,7 @@ RSpec.describe Museum do
                        cost: 0 } )
     end
     let(:dead_sea_scrolls) do
-        Exhibit.new( { name: 'Dead Sea Scolls',
+        Exhibit.new( { name: 'Dead Sea Scrolls',
                        cost: 10 } )
     end
     let(:imax) do
@@ -21,6 +21,10 @@ RSpec.describe Museum do
     end
     let(:patron_1) do
         Patron.new( { name: 'Bob',
+                       spending_money: 20 } )
+    end
+    let(:patron_2) do
+        Patron.new( { name: 'Sally',
                        spending_money: 20 } )
     end
 
@@ -42,6 +46,21 @@ RSpec.describe Museum do
             dmns.add_exhibit(imax)
 
             expect(dmns.exhibits).to eq([gems_and_minerals, dead_sea_scrolls, imax])
+        end
+    end
+
+    describe '#recommend_exhibits' do
+        it 'can create an array of exhibits for patrons to go visit' do
+            patron_1.add_interest("Dead Sea Scrolls")
+            patron_1.add_interest("Gems and Minerals")
+            patron_2.add_interest("IMAX")
+
+            dmns.add_exhibit(gems_and_minerals)
+            dmns.add_exhibit(dead_sea_scrolls)
+            dmns.add_exhibit(imax)
+
+            expect(dmns.recommend_exhibits(patron_1)).to eq([gems_and_minerals, dead_sea_scrolls])
+            expect(dmns.recommend_exhibits(patron_2)).to eq([imax])
         end
     end
 end
