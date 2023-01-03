@@ -22,4 +22,10 @@ class Museum
     def admit(patron)
         @patrons << patron
     end
+
+    def partrons_by_exhibit_interest
+        @exhibits.each do |exhibit|
+            
+        end
+    end
 end
