@@ -1,9 +1,9 @@
 class Patron
     attr_reader :name,
-                :age
+                :spending_money
 
     def initialize(info)
         @name = info[:name]
-        @age = info[:age]
+        @spending_money = info[:spending_money]
     end
 end
