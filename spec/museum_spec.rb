@@ -83,14 +83,98 @@ RSpec.describe Museum do
         it 'can return hash of key of exhibits with value of array of interested patrons' do
             patron_1.add_interest("Gems and Minerals")
             patron_1.add_interest("Dead Sea Scrolls")
+
             patron_2.add_interest("Dead Sea Scrolls")
+
             patron_3.add_interest("Dead Sea Scrolls")
             
+            dmns.add_exhibit(gems_and_minerals)
+            dmns.add_exhibit(dead_sea_scrolls)
+            dmns.add_exhibit(imax)
+
             dmns.admit(patron_1)
             dmns.admit(patron_2)
             dmns.admit(patron_3)
 
-            expect(dmns.partrons_by_exhibit_interest).to eq( { gems_and_minerals: [patron_1], dead_sea_scrolls: [patron_1, patron_2, patron_3] }, imax: [] )
+            expect(dmns.partrons_by_exhibit_interest).to eq( { 
+                gems_and_minerals => [patron_1], 
+                dead_sea_scrolls => [patron_1, patron_2, patron_3], 
+                imax => [] } )
+        end
+    end
+
+    describe '#ticket_lottery_contestants' do
+        it 'can return an array of patrons who do not have enough money for given exhibit' do
+            patron_1.add_interest("Gems and Minerals")
+            patron_1.add_interest("Dead Sea Scrolls")
+
+            patron_2.add_interest("Dead Sea Scrolls")
+
+            patron_3.add_interest("Dead Sea Scrolls")
+            
+            dmns.add_exhibit(gems_and_minerals)
+            dmns.add_exhibit(dead_sea_scrolls)
+            dmns.add_exhibit(imax)
+
+            dmns.admit(patron_1)
+            dmns.admit(patron_2)
+            dmns.admit(patron_3)
+
+            expect(dmns.ticket_lottery_contestants(dead_sea_scrolls)).to eq( [
+                patron_1,
+                patron_3 ] )
+        end
+    end
+
+    describe '#draw_lottery_winner' do
+        it 'can randomly draw a contestant for lottery' do
+            patron_1.add_interest("Gems and Minerals")
+            patron_1.add_interest("Dead Sea Scrolls")
+
+            patron_2.add_interest("Dead Sea Scrolls")
+
+            patron_3.add_interest("Dead Sea Scrolls")
+            
+            dmns.add_exhibit(gems_and_minerals)
+            dmns.add_exhibit(dead_sea_scrolls)
+            dmns.add_exhibit(imax)
+
+            dmns.admit(patron_1)
+            dmns.admit(patron_2)
+            dmns.admit(patron_3)
+
+            expected = patron_1.name || patron_3.name
+
+            allow(dmns.draw_lottery_winner(dead_sea_scrolls)).to receive(expected).and_return("Bob", "Johnny")
+
+            expect(["Bob", "Johnny"]).to include(dmns.draw_lottery_winner(dead_sea_scrolls))
+
+            expect(dmns.draw_lottery_winner(dead_sea_scrolls)).to eq("Bob").or eq("Johnny")
+
+            expect(dmns.draw_lottery_winner(gems_and_minerals)).to eq(nil)
+        end
+    end
+
+    describe '#announce_lottery_winner' do
+        it 'returns a string announcing a random winner' do
+            patron_1.add_interest("Gems and Minerals")
+            patron_1.add_interest("Dead Sea Scrolls")
+
+            patron_2.add_interest("Dead Sea Scrolls")
+
+            patron_3.add_interest("Dead Sea Scrolls")
+            
+            dmns.add_exhibit(gems_and_minerals)
+            dmns.add_exhibit(dead_sea_scrolls)
+            dmns.add_exhibit(imax)
+
+            dmns.admit(patron_1)
+            dmns.admit(patron_2)
+            dmns.admit(patron_3)
+
+            allow(dmns).to receive(:draw_lottery_winner).and_return("Bob")
+
+            expect(dmns.announce_lottery_winner(imax)).to eq('Bob has won the IMAX exhibit lottery')
         end
     end
 end
