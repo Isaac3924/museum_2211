@@ -21,11 +21,15 @@ RSpec.describe Museum do
     end
     let(:patron_1) do
         Patron.new( { name: 'Bob',
-                       spending_money: 20 } )
+                       spending_money: 0 } )
     end
     let(:patron_2) do
         Patron.new( { name: 'Sally',
                        spending_money: 20 } )
+    end
+    let(:patron_3) do
+        Patron.new( { name: 'Johnny',
+                       spending_money: 5 } )
     end
 
     describe '#initialize' do
@@ -62,6 +66,16 @@ RSpec.describe Museum do
 
             expect(dmns.recommend_exhibits(patron_1)).to eq([gems_and_minerals, dead_sea_scrolls])
             expect(dmns.recommend_exhibits(patron_2)).to eq([imax])
+        end
+    end
+
+    describe '#admit' do
+        it 'can add partrons into the Museum patrons array' do
+            dmns.admit(patron_1)
+            dmns.admit(patron_2)
+            dmns.admit(patron_3)
+
+            expect(dmns.patrons).to eq([patron_1, patron_2, patron_3])
         end
     end
 end
